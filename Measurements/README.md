@@ -1,6 +1,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Purpose](#purpose)
    * [Application Note: ヘッドホンの電気音響測定](#application-note-ヘッドホンの電気音響測定)
    * [Headphone, Earphone Frequency Response Measurements](#headphone-earphone-frequency-response-measurements)
@@ -16,14 +17,19 @@ Table of Contents
       * [Wiring](#wiring)
       * [Binaural Test](#binaural-test)
       * [Ultimately, listen to your favorite music...](#ultimately-listen-to-your-favorite-music)
+   * [Frequency Response (周波数情報)](#frequency-response-周波数情報)
+      * [背景](#背景)
+      * [resampleの落とし穴](#resampleの落とし穴)
+      * [fft内挿アルゴリズムinterpft](#fft内挿アルゴリズムinterpft)
+   * [任意の周波数特性を持ったFIRフィルタの設計](#任意の周波数特性を持ったfirフィルタの設計)
    * [h1 size](#h1-size)
       * [h2 size](#h2-size)
          * [h3 size](#h3-size)
             * [h4 size](#h4-size)
                * [h5 size](#h5-size)
+   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 
 # Purpose  
 Take note Measurments of acoustic stuffs
@@ -71,6 +77,39 @@ Take note Measurments of acoustic stuffs
 ## Binaural Test  
 ## Ultimately, listen to your favorite music...  
 
+# Frequency Response (周波数情報)  
+[周波数情報を変化させないまま信号を補間する．updated at 2018-02-27](https://qiita.com/Y_F_Acoustics/items/bcf6d6705038dca9975f)  
+## 背景  
+'''
+「あっ，いけね・・・この収録した信号，再生する際のサンプリング周波数が違う・・・」
+「異なるサンプリング周波数でちゃんと再生するために補間したいな・・・」
+
+「えいっ！！resample！！」
+
+ちょい待って！！
+'''
+[resample](https://jp.mathworks.com/help/signal/ref/resample.html)  
+
+## resampleの落とし穴
+
+## fft内挿アルゴリズムinterpft  
+'''
+そこで，信号の周波数成分を壊さずに補間できるアルゴリズムとして，interpftをオススメします．
+
+以下，引用
+「interpft コマンドは FFT 法を使用します。元のベクトル x は、fft を使ってフーリエ領域に変換され、より多くのサンプル点を使って逆変換されます。」
+
+つまり，「サンプルをフーリエ変換して周波数情報を取得し，サンプル間の信号を予測して内挿しますよ」ということです．
+こちらも適用後の周波数特性を見ればわかるかと思いますが，本来ない周波数成分は平坦になるかと思います．
+'''
+[interpft/1 次元内挿 (FFT 法)](https://jp.mathworks.com/help/matlab/ref/interpft.html)  
+
+# 任意の周波数特性を持ったFIRフィルタの設計  
+'''
+マイクで収録した音にFIRフィルタで周波数補正をかけたくなりました。FIRフィルタというとscipy.signal.firwinなどがありますが、今回は単純なローパスフィルタやハイパスフィルタではなく、複雑な周波数特性の実現を目指します。私はFIRフィルタの理論を深く理解しているわけではないので、間違っている箇所があると思います。そのときはコメントで教えていただけるとありがたいです。
+'''
+[やる夫で学ぶディジタル信号処理](http://www.ic.is.tohoku.ac.jp/%7Eswk/lecture/yaruodsp/main.html)
+
 
 * []()  
 ![alt tag]()  
@@ -101,4 +140,3 @@ Take note Measurments of acoustic stuffs
 - 1
 - 2
 - 3
-
